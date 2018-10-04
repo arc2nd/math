@@ -66,11 +66,11 @@ def firstQuartile(rawData):
     firstQuartileValue = 0.25 * (numOfPoints + 1)
     if len(rawData) % 4 != 0.0:
         #print "div by 4"
-    	return sortedData[int(firstQuartileValue)]
+        return sortedData[int(firstQuartileValue)]
     else:
         firstQMin = sortedData[int(firstQuartileValue)-1]
         firstQMax = sortedData[int(firstQuartileValue)]
-	#print firstQMin, firstQMax
+    #print firstQMin, firstQMax
         firstQValue = (float(firstQMin) + float(firstQMax)) / 2.0
         return firstQValue
 
@@ -97,13 +97,13 @@ def thirdQuartile(rawData):
     #print thirdQuartileValue
     if len(rawData) % 4 == 0.0:
         #print "div by 4"
-    	return sortedData[int(thirdQuartileValue)]
+        return sortedData[int(thirdQuartileValue)]
     else:
         thirdQMin = sortedData[int(thirdQuartileValue)-1]
-	thirdQMax = sortedData[int(thirdQuartileValue)]
-	#print thirdQMin, thirdQMax
-	thirdQValue = (float(thirdQMin) + float(thirdQMax)) / 2.0
-	return thirdQValue
+    thirdQMax = sortedData[int(thirdQuartileValue)]
+    #print thirdQMin, thirdQMax
+    thirdQValue = (float(thirdQMin) + float(thirdQMax)) / 2.0
+    return thirdQValue
 
 def midhinge(rawData):
     firstQuart = firstQuartile(rawData)
