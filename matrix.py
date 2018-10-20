@@ -60,6 +60,7 @@ def setPositions(object, thisPos):
     cmds.xform(object, t=thisPos, a=True, ws=True)
 
 def distance(start, end):
+    import math
     deltaX = start[0] - end[0]
     deltaY = start[1] - end[1]
     deltaZ = start[2] - end[2]
