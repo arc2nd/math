@@ -1,5 +1,15 @@
-import numpy as np
+import numpy as npif len(test_m[row-1]) < col:
+...     for i in range(len(test_m[row-1]), col):
+...         test_m[row-1].append(None)if len(test_m[row-1]) < col:
+...     for i in range(len(test_m[row-1]), col):
+...         test_m[row-1].append(None)
 import math
+
+VERBOSITY = 1
+
+def _log(priority, msg):
+    if VERBOSITY >= priority:
+        print(msg)
 
 matrix_list = []
 for i in range(9):
@@ -49,6 +59,7 @@ with np.printoptions(precision=3, suppress=True):
 img_list = img_matrix.tolist()
 
 # assumes numpy matrices
+# first pass
 def apply_transform(in_matrix, transf_matrix):
     rows, cols = in_matrix.shape
     print('rows:{}\ncols:{}'.format(rows, cols))
@@ -71,5 +82,57 @@ def apply_transform(in_matrix, transf_matrix):
 
 shear_out = apply_transform(img_matrix, y_shear_matrix)
 stretch_out = apply_transform(img_magrix, y_stretch_matrix)
+
+
+
+def apply_transform2(in_matrix, transf_matrix):
+    rows, cols = in_matrix.shape
+    _log(2, 'rows:{}\ncols:{}'.format(rows, cols))
+    out_matrix = []
+    # for every row
+    for i in range(0, rows-1):
+        # for every column
+        for j in range(0, cols-1):
+            _log(1, 'i:{}\nj:{}'.format(i, j)) 
+            val = in_matrix[i, j]
+            _log(2, 'val:{}'.format(val))
+            new_row, new_col = simple_transf(np.array([i, j]), transf_matrix).tolist()[0]
+            int_row = int(new_row)
+            int_col = int(new_col)
+            _log(2, 'new_row:{}\nnew_col:{}'.format(new_row, new_col))
+            # if new transformed position is outside the existing out_matrix
+            # then add a new row or col
+            if len(out_matrix) < int_row:
+                for i in range(len(out_matrix), int_row):
+                    out_matrix.append([])
+            if len(out_matrix[int_row-1]) < int_col:
+                for i in range(len(out_matrix[int_row-1]), int_col):
+                    out_matrix[int_row-1].append(None)
+
+
+    return out_matrix
+
+
+def add_to_matrix2d(in_matrix, vector, value):
+    out_matrix = []
+    new_row = vector[0]
+    new_col = vector[1]
+    rows, cols = in_matrix.shape
+    if new_row > rows:
+        for i in range(len(out_matrix), new_row):
+            _log(1, i)
+            out_matrix.append([])
+    for row in range(new_row):
+        if new_col > cols:
+            for j in range(len(out_matrix[row]), new_col):
+                _log(1, j)
+                out_matrix[row].append(None)
+    return np.array(out_matrix)
+            
+
+
+
+
+
 
 
