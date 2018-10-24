@@ -1,8 +1,11 @@
-import numpy as npif len(test_m[row-1]) < col:
-...     for i in range(len(test_m[row-1]), col):
-...         test_m[row-1].append(None)if len(test_m[row-1]) < col:
-...     for i in range(len(test_m[row-1]), col):
-...         test_m[row-1].append(None)
+import numpy as np
+
+if len(test_m[row-1]) < col:
+   for i in range(len(test_m[row-1]), col):
+       test_m[row-1].append(None)if len(test_m[row-1]) < col:
+   for i in range(len(test_m[row-1]), col):
+       test_m[row-1].append(None)
+
 import math
 
 VERBOSITY = 1
@@ -102,20 +105,18 @@ def apply_transform2(in_matrix, transf_matrix):
             _log(2, 'new_row:{}\nnew_col:{}'.format(new_row, new_col))
             # if new transformed position is outside the existing out_matrix
             # then add a new row or col
-            if len(out_matrix) < int_row:
-                for i in range(len(out_matrix), int_row):
-                    out_matrix.append([])
-            if len(out_matrix[int_row-1]) < int_col:
-                for i in range(len(out_matrix[int_row-1]), int_col):
-                    out_matrix[int_row-1].append(None)
-
-
+            add_to_matrix2d(in_matrix, [int_row, int_col], val)
     return out_matrix
 
 
 # in_matrix = np.array([[]])  # an empty matrix
 # in_matrix = np.array([[1.0, 2.0], [3.0, 4.0]])  # an very basic matrix already populated
 # add_to_matrix2d(in_matrix, [8,8], 4)  # returns an 8x8 matrix
+
+#TODO: make sure I copy the in_matrix over successfully even if I don't have to expand it
+# take in a matrix, a vector, and a valut
+# if that vector does not exist in that matrix, expand the matrix until it does
+# then place that value at that vector
 def add_to_matrix2d(in_matrix, vector, value=0.0):
     out_matrix = []
     max_row = vector[0]
@@ -123,19 +124,19 @@ def add_to_matrix2d(in_matrix, vector, value=0.0):
     rows, cols = in_matrix.shape
     _log(1, 'max_row: {}\nmax_col: {}\nrows: {}\ncols: {}\n'.format(max_row, max_col, rows, cols))
     # add new rows
-    if max_row > rows-1:
+    if max_row >= rows-1:
         for i in range(0, max_row+1):
             _log(1, i)
             out_matrix.append([])
     # add new columns to each and every row
     for row in range(0, max_row+1):
-        if max_col > cols-1:
+        if max_col >= cols-1:
             for j in range(0, max_col+1):
                 # _log(1, j)
                 out_matrix[row].append(None)
     # copy in_matrix values to out_matrix spots
-    for i in range(0, rows):
-        for j in range(0, cols):
+    for i in range(0, rows-1):
+        for j in range(0, cols-1):
             init = in_matrix[i,j]
             _log(1, '{},{}: {}'.format(i,j,init))
             out_matrix[i][j] = init
