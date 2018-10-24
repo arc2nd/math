@@ -113,20 +113,34 @@ def apply_transform2(in_matrix, transf_matrix):
     return out_matrix
 
 
-def add_to_matrix2d(in_matrix, vector, value):
+# in_matrix = np.array([[]])  # an empty matrix
+# in_matrix = np.array([[1.0, 2.0], [3.0, 4.0]])  # an very basic matrix already populated
+# add_to_matrix2d(in_matrix, [8,8], 4)  # returns an 8x8 matrix
+def add_to_matrix2d(in_matrix, vector, value=0.0):
     out_matrix = []
-    new_row = vector[0]
-    new_col = vector[1]
+    max_row = vector[0]
+    max_col = vector[1]
     rows, cols = in_matrix.shape
-    if new_row > rows:
-        for i in range(len(out_matrix), new_row):
+    _log(1, 'max_row: {}\nmax_col: {}\nrows: {}\ncols: {}\n'.format(max_row, max_col, rows, cols))
+    # add new rows
+    if max_row > rows-1:
+        for i in range(0, max_row+1):
             _log(1, i)
             out_matrix.append([])
-    for row in range(new_row):
-        if new_col > cols:
-            for j in range(len(out_matrix[row]), new_col):
-                _log(1, j)
+    # add new columns to each and every row
+    for row in range(0, max_row+1):
+        if max_col > cols-1:
+            for j in range(0, max_col+1):
+                # _log(1, j)
                 out_matrix[row].append(None)
+    # copy in_matrix values to out_matrix spots
+    for i in range(0, rows):
+        for j in range(0, cols):
+            init = in_matrix[i,j]
+            _log(1, '{},{}: {}'.format(i,j,init))
+            out_matrix[i][j] = init
+    # place this value in the vector spot
+    out_matrix[vector[0]][vector[1]] = value
     return np.array(out_matrix)
             
 
